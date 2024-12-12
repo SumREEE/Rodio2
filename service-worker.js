@@ -1,8 +1,8 @@
 const CACHE_NAME = "home-cache-v1";
 const urlsToCache = [
     "index.html",
+    "home.svg",
     "img/text-home2.png",
-    "img/home.png",
     "home.html",
     "syle-home.css",
 ];
