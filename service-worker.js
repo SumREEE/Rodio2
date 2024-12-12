@@ -1,9 +1,10 @@
 const CACHE_NAME = "home-cache-v1";
 const urlsToCache = [
+    "index.html",
+    "img/text-home2.png",
+    "img/home.png",
     "home.html",
     "syle-home.css",
-    "img/home.png",
-    "img/text-home2.png"
 ];
 
 self.addEventListener("install", (event) => {
