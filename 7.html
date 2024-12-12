@@ -124,7 +124,7 @@
 <body>
     <div class="containner">
         <div class="CD">
-            <img src="img/B.png" alt="Vinyl Background" class="Vinyl">
+            <img src="img/Blue.png" alt="Vinyl Background" class="Vinyl">
             <img src="img/kan.png" alt="Kan" class="kan">
             <a href="home.html">
                 <img src="img/Artboard.png" alt="Artboard" class="Artboard">
@@ -142,8 +142,8 @@
         </div>
     </div>
 
-    <audio id="audio1" src="sound/sec/07s.mp3" preload="auto"></audio>
-    <audio id="audio2" src="sound/fist/07f.mp3"auto"></audio>
+    <audio id="audio1" src="sound/sec/01s.mp3" preload="auto"></audio>
+    <audio id="audio2" src="sound/fist/01f.mp3" preload="auto"></audio>
 
     <script>
         const frame = document.getElementById("draggable");
@@ -151,48 +151,80 @@
         const vinyl = document.querySelector(".Vinyl");
         const audio1 = document.getElementById("audio1");
         const audio2 = document.getElementById("audio2");
-
-        frame.addEventListener("click", () => {
-            const currentLeft = parseFloat(getComputedStyle(frame).left);
-
-            if (currentLeft > window.innerWidth * 0.5) {
+    
+        let startX = 0;
+        let currentX = 0;
+        let isSwiping = false;
+    
+        // Play audio1 with 1 second delay on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                audio1.play();
+                audio1.currentTime = 0;
+    
+                vinyl.style.animation = "spin 10s linear infinite";
+                kan.style.animation = "shake 2s infinite ease-in-out";
+    
+                audio1.onended = () => {
+                    kan.style.animation = "";
+                };
+            }, 1000); // Delay of 1 second (1000ms)
+        });
+    
+        frame.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            isSwiping = true;
+        });
+    
+        frame.addEventListener("touchmove", (e) => {
+            if (!isSwiping) return;
+            currentX = e.touches[0].clientX;
+        });
+    
+        frame.addEventListener("touchend", () => {
+            if (!isSwiping) return;
+            isSwiping = false;
+            const diff = currentX - startX;
+    
+            if (diff < -50) { // Swipe left to play audio2
                 frame.style.left = "12.5%";
                 audio1.pause();
                 audio1.currentTime = 0;
                 audio2.play();
-                audio2.currentTime = 0;
-
+    
                 vinyl.style.animation = "none";
-                vinyl.offsetHeight;
+                vinyl.offsetHeight; // Trigger reflow
                 vinyl.style.animation = "spin 10s linear infinite";
-
+    
                 kan.style.animation = "none";
-                kan.offsetHeight;
+                kan.offsetHeight; // Trigger reflow
                 kan.style.animation = "shake 2s infinite ease-in-out";
-            } else {
+            } else if (diff > 50) { // Swipe right to play audio1
                 frame.style.left = "87%";
                 audio2.pause();
                 audio2.currentTime = 0;
                 audio1.play();
-                audio1.currentTime = 0;
-
+    
                 vinyl.style.animation = "none";
-                vinyl.offsetHeight;
+                vinyl.offsetHeight; // Trigger reflow
                 vinyl.style.animation = "spin 10s linear infinite";
-
+    
                 kan.style.animation = "none";
-                kan.offsetHeight;
+                kan.offsetHeight; // Trigger reflow
                 kan.style.animation = "shake 2s infinite ease-in-out";
             }
-
+    
             audio1.onended = () => {
                 kan.style.animation = "";
             };
-
+    
             audio2.onended = () => {
                 kan.style.animation = "";
             };
         });
     </script>
+    
+    
+    
 </body>
 </html>

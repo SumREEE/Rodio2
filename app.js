@@ -57,3 +57,5 @@ window.onload = () => {
     document.addEventListener('keypress', resetInactivityTimer); // ตรวจจับการกดคีย์บอร์ด
     document.addEventListener('touchstart', resetInactivityTimer); // ตรวจจับการแตะบนจอ
 };
+
+    
