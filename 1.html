@@ -146,71 +146,64 @@
     <audio id="audio2" src="sound/fist/01f.mp3" preload="auto"></audio>
 
     <script>
-        const frame = document.getElementById("draggable");
-        const kan = document.querySelector(".kan");
-        const vinyl = document.querySelector(".Vinyl");
-        const audio1 = document.getElementById("audio1");
-        const audio2 = document.getElementById("audio2");
-    
-        let startX = 0;
-        let currentX = 0;
-        let isSwiping = false;
-    
-        frame.addEventListener("touchstart", (e) => {
-            startX = e.touches[0].clientX;
-            isSwiping = true;
-        });
-    
-        frame.addEventListener("touchmove", (e) => {
-            if (!isSwiping) return;
-            currentX = e.touches[0].clientX;
-        });
-    
-        frame.addEventListener("touchend", () => {
-            if (!isSwiping) return;
-            isSwiping = false;
-            const diff = currentX - startX;
-    
-            if (diff < -50) { // Swipe left to play audio2
-                frame.style.left = "12.5%";
-                audio1.pause();
-                audio1.currentTime = 0;
-                audio2.play();
-    
-                vinyl.style.animation = "none";
-                vinyl.offsetHeight; // Trigger reflow
-                vinyl.style.animation = "spin 10s linear infinite";
-    
-                kan.style.animation = "none";
-                kan.offsetHeight; // Trigger reflow
-                kan.style.animation = "shake 2s infinite ease-in-out";
-            } else if (diff > 50) { // Swipe right to play audio1
-                frame.style.left = "87%";
-                audio2.pause();
-                audio2.currentTime = 0;
-                audio1.play();
-    
-                vinyl.style.animation = "none";
-                vinyl.offsetHeight; // Trigger reflow
-                vinyl.style.animation = "spin 10s linear infinite";
-    
-                kan.style.animation = "none";
-                kan.offsetHeight; // Trigger reflow
-                kan.style.animation = "shake 2s infinite ease-in-out";
-            }
-    
-            audio1.onended = () => {
-                kan.style.animation = "";
-            };
-    
-            audio2.onended = () => {
-                kan.style.animation = "";
-            };
-        });
+       const frame = document.getElementById("draggable");
+const kan = document.querySelector(".kan");
+const vinyl = document.querySelector(".Vinyl");
+const audio1 = document.getElementById("audio1");
+const audio2 = document.getElementById("audio2");
+
+let audioPlayed = false;
+
+// เพิ่มเหตุการณ์คลิกที่กรอบ (frame)
+frame.addEventListener("click", () => {
+    if (!audioPlayed) {
+        audio1.play(); // หรือ audio2 ตามที่ต้องการ
+        audioPlayed = true;
+    }
+
+    // การคลิกที่กรอบเพื่อเปลี่ยนตำแหน่งกรอบและเล่นเสียง
+    if (frame.style.left === "12.5%") {
+        // ปัดซ้าย (คลิก) เพื่อเล่น audio2
+        audio1.pause();
+        audio1.currentTime = 0;
+        audio2.play();
+
+        vinyl.style.animation = "none";
+        vinyl.offsetHeight; // Trigger reflow
+        vinyl.style.animation = "spin 10s linear infinite";
+
+        kan.style.animation = "none";
+        kan.offsetHeight; // Trigger reflow
+        kan.style.animation = "shake 2s infinite ease-in-out";
+
+        frame.style.left = "87%"; // เปลี่ยนกรอบไปที่ตำแหน่งขวา
+    } else {
+        // ปัดขวา (คลิก) เพื่อเล่น audio1
+        audio2.pause();
+        audio2.currentTime = 0;
+        audio1.play();
+
+        vinyl.style.animation = "none";
+        vinyl.offsetHeight; // Trigger reflow
+        vinyl.style.animation = "spin 10s linear infinite";
+
+        kan.style.animation = "none";
+        kan.offsetHeight; // Trigger reflow
+        kan.style.animation = "shake 2s infinite ease-in-out";
+
+        frame.style.left = "12.5%"; // เปลี่ยนกรอบไปที่ตำแหน่งซ้าย
+    }
+});
+
+audio1.onended = () => {
+    kan.style.animation = "";
+};
+
+audio2.onended = () => {
+    kan.style.animation = "";
+};
+
     </script>
-    
-    
-    
     
 </body>
 </html>
