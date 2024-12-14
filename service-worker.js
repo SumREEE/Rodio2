@@ -2,11 +2,14 @@ const CACHE_NAME = "home-cache-v1";
 const urlsToCache = [
     "index.html",
     "img/home.jpg",
+    "syle-home.css",
+    "img/Blue.png",
+    "img/Yellow.png",
+    "img/Green.png",
     "fist/01f.mp3",
     "sec/01s.mp3",
     "img/text-home2.png",
     "home.html",
-    "syle-home.css",
 ];
 
 // ติดตั้ง Service Worker และแคชไฟล์
