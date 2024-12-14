@@ -8,20 +8,20 @@
     <link rel="stylesheet" href="syle-home.css">
     <link rel="manifest" href="manifest.json">
 
-    <link rel="prefetch" href="img/home.png">
+    <link rel="preload" href="img/home.png">
     <link rel="prefetch" href="syle-home.css">
-
-
 
 </head>
 <body>
     <div class="containner">
-        <a href="home.html">
-            <img src="img/home.png" alt="Home Image" loading="lazy">
-        </a>
+        <div class="problem">
+        <img src="img/home.png" alt="Home Image" loading="eager">
+        </div>
     </div>
     <div class="text">
+        <a href="home.html">
         <img src="img/text-home2.png" alt="" >
+        </a>
     </div>
 
     <script src="service-worker.js"></script>

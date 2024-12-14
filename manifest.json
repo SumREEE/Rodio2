@@ -4,15 +4,15 @@
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#B8B6AD",
-    "theme_color": "#000000",
+    "theme_color": "#B8B6AD",
     "icons": [
       {
-        "src": "img/B.png",
+        "src": "img/Yellow.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "img/B.png",
+        "src": "img/Yellow.png",
         "sizes": "512x512",
         "type": "image/png"
       }

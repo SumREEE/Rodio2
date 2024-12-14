@@ -142,8 +142,8 @@
         </div>
     </div>
 
-    <audio id="audio1" src="sound/sec/01s.mp3" preload="auto"></audio>
-    <audio id="audio2" src="sound/fist/01f.mp3" preload="auto"></audio>
+    <audio id="audio1" src="sound/sec/02s.mp3" preload="auto"></audio>
+    <audio id="audio2" src="sound/fist/02f.mp3" preload="auto"></audio>
 
     <script>
         const frame = document.getElementById("draggable");
@@ -155,21 +155,6 @@
         let startX = 0;
         let currentX = 0;
         let isSwiping = false;
-    
-        // Play audio1 with 1 second delay on page load
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                audio1.play();
-                audio1.currentTime = 0;
-    
-                vinyl.style.animation = "spin 10s linear infinite";
-                kan.style.animation = "shake 2s infinite ease-in-out";
-    
-                audio1.onended = () => {
-                    kan.style.animation = "";
-                };
-            }, 1000); // Delay of 1 second (1000ms)
-        });
     
         frame.addEventListener("touchstart", (e) => {
             startX = e.touches[0].clientX;
@@ -223,6 +208,7 @@
             };
         });
     </script>
+    
     
     
     
