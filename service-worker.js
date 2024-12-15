@@ -1,51 +1,44 @@
-const CACHE_NAME = "home-cache-v1";
+const CACHE_NAME = 'pwa-home-cache-v1';
 const urlsToCache = [
-    "index.html",
-    "img/home.jpg",
-    "syle-home.css",
-    "img/Blue.png",
-    "img/Yellow.png",
-    "img/Green.png",
-    "fist/01f.mp3",
-    "sec/01s.mp3",
-    "img/text-home2.png",
-    "home.html",
+    './index.html',
+    './syle-home.css',
+    './img/home.png',
+    './img/text-home2.png',
+    './img/Blue.png',
+    './img/Yellow.png',
+    './img/Green.png',
+    './manifest.json'
+    
 ];
 
-self.addEventListener("install", (event) => {
+// ติดตั้ง Service Worker และแคชไฟล์
+self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
+        caches.open(CACHE_NAME).then(cache => {
+            console.log('Opened cache');
             return cache.addAll(urlsToCache);
         })
     );
 });
 
-self.addEventListener("fetch", (event) => {
+// จัดการการเรียกข้อมูล
+self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request).then((response) => {
-            if (response) {
-                return response;
-            }
-            return fetch(event.request).then((response) => {
-                return caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, response.clone());
-                    return response;
-                });
-            });
-        }).catch(() => {
-            return caches.match("offline.html");
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request);
         })
     );
 });
 
-self.addEventListener("activate", (event) => {
+// ล้างแคชเก่าเมื่อมีการอัปเดต
+self.addEventListener('activate', event => {
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
+        caches.keys().then(cacheNames => {
             return Promise.all(
-                cacheNames.map((cache) => {
-                    if (!cacheWhitelist.includes(cache)) {
-                        return caches.delete(cache);
+                cacheNames.map(cacheName => {
+                    if (!cacheWhitelist.includes(cacheName)) {
+                        return caches.delete(cacheName);
                     }
                 })
             );
