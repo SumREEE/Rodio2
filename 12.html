@@ -90,8 +90,15 @@
             margin-bottom: 3rem;
         }
 
-        .Text img {
-            width: 34%;
+        .Text img[src*="Text1.2.png"] {
+            width: 31%;
+            position: absolute;
+            left: 63%;
+            top: 85.15%;
+        }
+
+        .Text img[src*="Text1.1.png"] {
+            width: 39%;
         }
 
         .Vector {
@@ -142,8 +149,8 @@
         </div>
     </div>
 
-    <audio id="audio1" src="sound/sec/12s.mp3" preload="auto"></audio>
-    <audio id="audio2" src="sound/fist/12f.mp3" preload="auto"></audio>
+    <audio id="audio2" src="sound/sec/12s.mp3" preload="auto"></audio>
+    <audio id="audio1" src="sound/fist/12f.mp3" preload="auto"></audio>
 
     <script>
         const frame = document.getElementById("draggable");
@@ -151,57 +158,69 @@
         const vinyl = document.querySelector(".Vinyl");
         const audio1 = document.getElementById("audio1");
         const audio2 = document.getElementById("audio2");
-
+    
         let audioPlayed = false;
-
+        let inactivityTimer;
+    
         // เพิ่มเหตุการณ์คลิกที่กรอบ (frame)
         frame.addEventListener("click", () => {
             if (!audioPlayed) {
                 audio1.play(); // หรือ audio2 ตามที่ต้องการ
                 audioPlayed = true;
             }
-
+    
             // การคลิกที่กรอบเพื่อเปลี่ยนตำแหน่งกรอบและเล่นเสียง
             if (frame.style.left === "12.5%") {
                 // ปัดซ้าย (คลิก) เพื่อเล่น audio2
                 audio1.pause();
                 audio1.currentTime = 0;
                 audio2.play();
-
+    
                 vinyl.style.animation = "none";
                 vinyl.offsetHeight; // Trigger reflow
                 vinyl.style.animation = "spin 10s linear infinite";
-
+    
                 kan.style.animation = "none";
                 kan.offsetHeight; // Trigger reflow
                 kan.style.animation = "shake 2s infinite ease-in-out";
-
+    
                 frame.style.left = "87%"; // เปลี่ยนกรอบไปที่ตำแหน่งขวา
             } else {
                 // ปัดขวา (คลิก) เพื่อเล่น audio1
                 audio2.pause();
                 audio2.currentTime = 0;
                 audio1.play();
-
+    
                 vinyl.style.animation = "none";
                 vinyl.offsetHeight; // Trigger reflow
                 vinyl.style.animation = "spin 10s linear infinite";
-
+    
                 kan.style.animation = "none";
                 kan.offsetHeight; // Trigger reflow
                 kan.style.animation = "shake 2s infinite ease-in-out";
-
+    
                 frame.style.left = "12.5%"; // เปลี่ยนกรอบไปที่ตำแหน่งซ้าย
             }
+    
+            // รีเซ็ตเวลา inactivity เมื่อมีการคลิก
+            resetInactivityTimer();
         });
-
-        audio1.onended = () => {
-            kan.style.animation = "";
-        };
-
-        audio2.onended = () => {
-            kan.style.animation = "";
-        };
+    
+        // ฟังก์ชันสำหรับการรีเซ็ตเวลา inactivity
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                window.location.href = "index.html";  // ไปยังหน้า index หลังจาก 15 วินาที
+            }, 10000);  // 15 วินาที
+        }
+    
+        // รีเซ็ตเวลา inactivity เมื่อมีการเคลื่อนไหวหรือการกดปุ่ม
+        document.addEventListener("mousemove", resetInactivityTimer);
+        document.addEventListener("keypress", resetInactivityTimer);
+        document.addEventListener("touchstart", resetInactivityTimer);
+        
+        // เรียกใช้เมื่อหน้าโหลดขึ้นมาเพื่อเริ่มจับเวลา inactivity
+        window.onload = resetInactivityTimer;
     </script>
     
     
