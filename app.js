@@ -40,6 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const slideIndex = urlParams.get('slide');
+
+    // เปลี่ยนไปยังสไลด์ที่ระบุในพารามิเตอร์
+    if (slideIndex) {
+        swiper.slideTo(parseInt(slideIndex) - 1, 0); // slideTo(index, speed)
+    }
+});
+
 // จับเวลา inactivity 10 วินาทีเพื่อนำผู้ใช้ไปที่หน้า home.html
 let inactivityTimer;
 
