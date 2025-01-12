@@ -158,18 +158,15 @@
         const vinyl = document.querySelector(".Vinyl");
         const audio1 = document.getElementById("audio1");
         const audio2 = document.getElementById("audio2");
-    
+        
         let audioPlayed = false;
-        let inactivityTimer;
     
-        // เพิ่มเหตุการณ์คลิกที่กรอบ (frame)
         frame.addEventListener("click", () => {
             if (!audioPlayed) {
                 audio1.play(); // หรือ audio2 ตามที่ต้องการ
                 audioPlayed = true;
             }
-    
-            // การคลิกที่กรอบเพื่อเปลี่ยนตำแหน่งกรอบและเล่นเสียง
+        
             if (frame.style.left === "12.5%") {
                 // ปัดซ้าย (คลิก) เพื่อเล่น audio2
                 audio1.pause();
@@ -186,7 +183,6 @@
     
                 frame.style.left = "87%"; // เปลี่ยนกรอบไปที่ตำแหน่งขวา
             } else {
-                // ปัดขวา (คลิก) เพื่อเล่น audio1
                 audio2.pause();
                 audio2.currentTime = 0;
                 audio1.play();
@@ -201,28 +197,18 @@
     
                 frame.style.left = "12.5%"; // เปลี่ยนกรอบไปที่ตำแหน่งซ้าย
             }
-    
-            // รีเซ็ตเวลา inactivity เมื่อมีการคลิก
-            resetInactivityTimer();
         });
     
-        // ฟังก์ชันสำหรับการรีเซ็ตเวลา inactivity
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimer);
-            inactivityTimer = setTimeout(() => {
-                window.location.href = "index.html";  // ไปยังหน้า index หลังจาก 15 วินาที
-            }, 10000);  // 15 วินาที
-        }
+        // เพิ่ม listener สำหรับเมื่อเสียงเล่นจบ
+        audio1.addEventListener("ended", () => {
+            window.location.href = "index.html"; // เปลี่ยนหน้าไปที่ index.html
+        });
     
-        // รีเซ็ตเวลา inactivity เมื่อมีการเคลื่อนไหวหรือการกดปุ่ม
-        document.addEventListener("mousemove", resetInactivityTimer);
-        document.addEventListener("keypress", resetInactivityTimer);
-        document.addEventListener("touchstart", resetInactivityTimer);
-        
-        // เรียกใช้เมื่อหน้าโหลดขึ้นมาเพื่อเริ่มจับเวลา inactivity
-        window.onload = resetInactivityTimer;
-        
+        audio2.addEventListener("ended", () => {
+            window.location.href = "index.html"; // เปลี่ยนหน้าไปที่ index.html
+        });
     </script>
+    
     
     
     
