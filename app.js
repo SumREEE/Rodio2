@@ -57,7 +57,7 @@ function resetInactivityTimer() {
     clearTimeout(inactivityTimer); // รีเซ็ตตัวจับเวลา
     inactivityTimer = setTimeout(() => {
         window.location.href = "index.html"; // เปลี่ยนไปยังหน้า home
-    }, 15000); // ตั้งเวลา 10 วินาที
+    }, 20000); // ตั้งเวลา 10 วินาที
 }
 
 // เริ่มต้นจับเวลาและตรวจจับกิจกรรมผู้ใช้
