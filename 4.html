@@ -153,61 +153,72 @@
     <audio id="audio1" src="sound/fist/04f.mp3" preload="auto"></audio>
 
     <script>
-    const frame = document.getElementById("draggable");
-    const kan = document.querySelector(".kan");
-    const vinyl = document.querySelector(".Vinyl");
-    const audio1 = document.getElementById("audio1");
-    const audio2 = document.getElementById("audio2");
+        const frame = document.getElementById("draggable");
+const kan = document.querySelector(".kan");
+const vinyl = document.querySelector(".Vinyl");
+const audio1 = document.getElementById("audio1");
+const audio2 = document.getElementById("audio2");
+
+let startX;
+let audioPlayed = false;
+
+// ปลดล็อกการเล่นเสียงเมื่อแตะที่จอ
+document.addEventListener("touchstart", () => {
+    audio1.play().then(() => audio1.pause()).catch(() => {});
+    audio2.play().then(() => audio2.pause()).catch(() => {});
+    console.log("Touch detected, audio should now be allowed.");
+}, { once: true });
+
+frame.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+});
+
+frame.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let deltaX = endX - startX;
+
+    if (deltaX < -50) {
+        // ปัดไปทางซ้าย
+        playAudio(audio1, "12.5%");
+    } else if (deltaX > 50) {
+        // ปัดไปทางขวา
+        playAudio(audio2, "87%");
+    }
+});
+
+function playAudio(audio, position) {
+    if (!audioPlayed) {
+        audio.play();
+        audioPlayed = true;
+    }
     
-    let audioPlayed = false;
-
-    frame.addEventListener("click", () => {
-        if (!audioPlayed) {
-            audio1.play(); // หรือ audio2 ตามที่ต้องการ
-            audioPlayed = true;
-        }
+    audio1.pause();
+    audio2.pause();
+    audio1.currentTime = 0;
+    audio2.currentTime = 0;
     
-        if (frame.style.left === "12.5%") {
-            // ปัดซ้าย (คลิก) เพื่อเล่น audio2
-            audio1.pause();
-            audio1.currentTime = 0;
-            audio2.play();
+    audio.play();
+    
+    vinyl.style.animation = "none";
+    vinyl.offsetHeight;
+    vinyl.style.animation = "spin 10s linear infinite";
 
-            vinyl.style.animation = "none";
-            vinyl.offsetHeight; // Trigger reflow
-            vinyl.style.animation = "spin 10s linear infinite";
+    kan.style.animation = "none";
+    kan.offsetHeight;
+    kan.style.animation = "shake 2s infinite ease-in-out";
+    
+    frame.style.left = position;
+}
 
-            kan.style.animation = "none";
-            kan.offsetHeight; // Trigger reflow
-            kan.style.animation = "shake 2s infinite ease-in-out";
+audio1.addEventListener("ended", () => {
+    window.location.href = "index.html";
+});
 
-            frame.style.left = "87%"; // เปลี่ยนกรอบไปที่ตำแหน่งขวา
-        } else {
-            audio2.pause();
-            audio2.currentTime = 0;
-            audio1.play();
+audio2.addEventListener("ended", () => {
+    window.location.href = "index.html";
+});
 
-            vinyl.style.animation = "none";
-            vinyl.offsetHeight; // Trigger reflow
-            vinyl.style.animation = "spin 10s linear infinite";
-
-            kan.style.animation = "none";
-            kan.offsetHeight; // Trigger reflow
-            kan.style.animation = "shake 2s infinite ease-in-out";
-
-            frame.style.left = "12.5%"; // เปลี่ยนกรอบไปที่ตำแหน่งซ้าย
-        }
-    });
-
-    // เพิ่ม listener สำหรับเมื่อเสียงเล่นจบ
-    audio1.addEventListener("ended", () => {
-        window.location.href = "index.html"; // เปลี่ยนหน้าไปที่ index.html
-    });
-
-    audio2.addEventListener("ended", () => {
-        window.location.href = "index.html"; // เปลี่ยนหน้าไปที่ index.html
-    });
-</script>
+    </script>
 
     
     
